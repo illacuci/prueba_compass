@@ -10,8 +10,9 @@ from tkinter import END, NW, Grid, Image, Label, filedialog, ttk, messagebox, BO
 import sqlite3
 import Util.util as utl
 
+#Configuración base correspondiente a la ventana principal de trabajo de la aplicación base para todos los roles/permisos de usuarios.
 class StartingFrame():
-    def abc(self):
+    def __init__(self):
         self.window = tk.Tk()
         self.window.title ("Compass")
         self.window.geometry("1000x700")
@@ -19,14 +20,13 @@ class StartingFrame():
 
         self.frame = tk.Frame()
 
-        self.logo = utl.read_image("Imágenes/Compass_logo.png", (300, 250))
+        self.logo = utl.read_image("Imagenes/Compass_logo.png", (300, 250))
         self.label = tk.Label(self.frame, image=self.logo, bg="#FFFFFF") 
         self.label.place(x=0, y=0, relwidth=1, relheight=1)
         self.frame.place(x=0, y=0, relwidth=1, relheight=1)
 
         self.menu_bar = tk.Menu(self.window)
-        self.window.config(menu = self.menu_bar)
-        
+        self.window.config(menu = self.menu_bar)     
 
     def menu_redes(self):
         self.nn_menu = tk.Menu(self.menu_bar, tearoff = 0)
@@ -74,19 +74,19 @@ class StartingFrame():
         self.menu_bar.add_cascade(label="Base de Datos", menu= db_control)
         record_tables = tk.Menu(db_control, tearoff=0)
         db_control.add_cascade(label="Tablas de registros", menu=record_tables)
-        record_tables.add_command(label="Pedidos", command= lambda: [utl.clean_windows(self.window), FramesDB(self.window).create_view("base de datos/db.db", "Pedidos")])
-        record_tables.add_command(label="Planificaciones", command= lambda: [utl.clean_windows(self.window), FramesDB(self.window).create_view("base de datos/db.db", "Planificaciones")])
-        record_tables.add_command(label="Facturas", command= lambda: [utl.clean_windows(self.window), FramesDB(self.window).create_view("base de datos/db.db", "Facturas")])
+        record_tables.add_command(label="Pedidos", command= lambda: [utl.clean_windows(self.window), FramesDB(self.window).create_view("base_datos/db.db", "Pedidos")])
+        record_tables.add_command(label="Planificaciones", command= lambda: [utl.clean_windows(self.window), FramesDB(self.window).create_view("base_datos/db.db", "Planificaciones")])
+        record_tables.add_command(label="Facturas", command= lambda: [utl.clean_windows(self.window), FramesDB(self.window).create_view("base_datos/db.db", "Facturas")])
         primary_tables = tk.Menu(db_control, tearoff=0)
         db_control.add_cascade(label="Tablas primarias", menu=primary_tables)
-        primary_tables.add_command(label="Productos", command= lambda: [utl.clean_windows(self.window), FramesDB(self.window).create_view("base de datos/db.db", "Productos")])
-        primary_tables.add_command(label="Proveedores", command= lambda: [utl.clean_windows(self.window), FramesDB(self.window).create_view("base de datos/db.db", "Proveedores")])
-        primary_tables.add_command(label="Comedores", command= lambda: [utl.clean_windows(self.window), FramesDB(self.window).create_view("base de datos/db.db", "Comedores")])
-        primary_tables.add_command(label="Cargos", command= lambda: [utl.clean_windows(self.window), FramesDB(self.window).create_view("base de datos/db.db", "Cargos")])
-        primary_tables.add_command(label="Ubicaciones", command= lambda: [utl.clean_windows(self.window), FramesDB(self.window).create_view("base de datos/db.db", "Ubicaciones")])
-        primary_tables.add_command(label="Empleados", command= lambda: [utl.clean_windows(self.window), FramesDB(self.window).create_view("base de datos/db.db", "Empleados")])
-        primary_tables.add_command(label="Bloqueos", command= lambda: [utl.clean_windows(self.window), FramesDB(self.window).create_view("base de datos/db.db", "Bloqueos")])
-        primary_tables.add_command(label="Estados", command= lambda: [utl.clean_windows(self.window), FramesDB(self.window).create_view("base de datos/db.db", "Estados")])
+        primary_tables.add_command(label="Productos", command= lambda: [utl.clean_windows(self.window), FramesDB(self.window).create_view("base_datos/db.db", "Productos")])
+        primary_tables.add_command(label="Proveedores", command= lambda: [utl.clean_windows(self.window), FramesDB(self.window).create_view("base_datos/db.db", "Proveedores")])
+        primary_tables.add_command(label="Comedores", command= lambda: [utl.clean_windows(self.window), FramesDB(self.window).create_view("base_datos/db.db", "Comedores")])
+        primary_tables.add_command(label="Cargos", command= lambda: [utl.clean_windows(self.window), FramesDB(self.window).create_view("base_datos/db.db", "Cargos")])
+        primary_tables.add_command(label="Ubicaciones", command= lambda: [utl.clean_windows(self.window), FramesDB(self.window).create_view("base_datos/db.db", "Ubicaciones")])
+        primary_tables.add_command(label="Empleados", command= lambda: [utl.clean_windows(self.window), FramesDB(self.window).create_view("base_datos/db.db", "Empleados")])
+        primary_tables.add_command(label="Bloqueos", command= lambda: [utl.clean_windows(self.window), FramesDB(self.window).create_view("base_datos/db.db", "Bloqueos")])
+        primary_tables.add_command(label="Estados", command= lambda: [utl.clean_windows(self.window), FramesDB(self.window).create_view("base_datos/db.db", "Estados")])
         db_control.add_separator()
         table_views = tk.Menu(db_control, tearoff=0)
         db_control.add_cascade(label="Vistas", menu=table_views)
@@ -96,17 +96,18 @@ class StartingFrame():
         table_views.add_command(label="Pedidos")
         table_views.add_command(label="Facturas Bloqueadas")
 
+#Crea la vista para el usuario con rol "administrador", agrega los menu habilitados a este rol a la ventaba base.
 class AdminMenu(StartingFrame):
     def __init__(self):
-        self.abc()
+        super().__init__()
         self.menu_administracion()
         self.menu_automatizaciones()
         self.menu_redes()
         self.db_control()
         self.menu_ayuda()
-
         self.window.mainloop()
 
+#Crea un frame en la ventana principal con la vista general para editar y visualizar tablas de la base de datos.
 class FramesDB(tk.Frame):
     def __init__(self, root):
         super().__init__(root)

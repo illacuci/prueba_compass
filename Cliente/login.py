@@ -3,6 +3,8 @@ from tkinter import messagebox, BOTH
 import Util.util as utl
 import Cliente.gui_app as Gui
 
+
+#Ventana con el login,
 class Login_window():
     def __init__(self):
 
@@ -11,7 +13,7 @@ class Login_window():
         self.window_login.geometry("700x400")
         self.window_login.resizable(0,0)
 
-        self.logo_login = utl.read_image("Imágenes/Compass_logo.png", (250, 180))
+        self.logo_login = utl.read_image("Imagenes/Compass_logo.png", (250, 180))
 
         self.image_frame =tk.Label(self.window_login, width= 300, bg= "#FFFFFF", image= self.logo_login)
         self.image_frame.pack(side="left", fill=BOTH)

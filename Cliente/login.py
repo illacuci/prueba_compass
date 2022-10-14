@@ -1,7 +1,9 @@
+from sqlite3 import connect
 import tkinter as tk
 from tkinter import messagebox, BOTH
 import Util.util as utl
 import Cliente.gui_app as Gui
+import Base_datos.connexion as Connection
 
 
 #Ventana con el login,
@@ -53,8 +55,22 @@ class Login_window():
         user = self.entry_user.get()
         passw = self.entry_passw.get()
 
-        if (user == "Admin" and passw == "1234") :
+        connexion = Connection.create_connexion("base_datos/db.db")
+        cursor = connexion.cursor()        
+        cursor.execute("SELECT Count(*) FROM Usuarios WHERE Nombre_usuario = '"'{}'"' AND Contrasenia = '"'{}'"'".format(user, passw))
+        login = cursor.fetchall()
+
+        if login[0][0] == 1:
             self.window_login.destroy()
-            Gui.AdminMenu()
+            cursor.execute("SELECT Cargo FROM Usuarios WHERE Nombre_usuario = '"'{}'"' AND Contrasenia = '"'{}'"'".format(user, passw))
+            cargo = cursor.fetchall()
+
+            enabled_view = {
+                "Administrador": Gui.AdminMenu(),
+                "Comprador": Gui.AdminMenu()
+            }
+            view = enabled_view.get(cargo[0][0])
+            view.create()
+    
         else:
             messagebox.showerror(message="Datos incorrectos", title= "Error de validación")

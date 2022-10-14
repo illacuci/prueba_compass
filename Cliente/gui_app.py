@@ -12,7 +12,7 @@ import Util.util as utl
 
 #Configuración base correspondiente a la ventana principal de trabajo de la aplicación base para todos los roles/permisos de usuarios.
 class StartingFrame():
-    def __init__(self):
+    def ventana(self):
         self.window = tk.Tk()
         self.window.title ("Compass")
         self.window.geometry("1000x700")
@@ -98,8 +98,8 @@ class StartingFrame():
 
 #Crea la vista para el usuario con rol "administrador", agrega los menu habilitados a este rol a la ventaba base.
 class AdminMenu(StartingFrame):
-    def __init__(self):
-        super().__init__()
+    def create(self):
+        self.ventana()
         self.menu_administracion()
         self.menu_automatizaciones()
         self.menu_redes()

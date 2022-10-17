@@ -1,4 +1,4 @@
-from sqlite3 import connect
+from sqlite3 import Cursor, connect
 import tkinter as tk
 from tkinter import messagebox, BOTH
 import Util.util as utl
@@ -59,7 +59,6 @@ class Login_window():
         cursor = connexion.cursor()        
         cursor.execute("SELECT Count(*) FROM Usuarios WHERE Nombre_usuario = '"'{}'"' AND Contrasenia = '"'{}'"'".format(user, passw))
         login = cursor.fetchall()
-
         if login[0][0] == 1:
             self.window_login.destroy()
             cursor.execute("SELECT Cargo FROM Usuarios WHERE Nombre_usuario = '"'{}'"' AND Contrasenia = '"'{}'"'".format(user, passw))
@@ -74,3 +73,5 @@ class Login_window():
     
         else:
             messagebox.showerror(message="Datos incorrectos", title= "Error de validación")
+        
+        cursor.close()
